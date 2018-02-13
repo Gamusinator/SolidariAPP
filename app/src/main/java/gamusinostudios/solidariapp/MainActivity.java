@@ -8,11 +8,13 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.support.v4.app.FragmentManager;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
 public class MainActivity extends AppCompatActivity {
 
+    FragmentManager fragmentManager=getSupportFragmentManager();
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -21,10 +23,13 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_generador:
+                    fragmentManager.beginTransaction().replace(R.id.contenedor, new Fragment01()).commit();
                     return true;
                 case R.id.navigation_inici:
+                    fragmentManager.beginTransaction().replace(R.id.contenedor, new Fragment02()).commit();
                     return true;
                 case R.id.navigation_estadistiques:
+                    fragmentManager.beginTransaction().replace(R.id.contenedor, new Fragment03()).commit();
                     return true;
             }
             return false;
@@ -53,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
                 CompartirAPP();
             }
         });
-
 
     }
 
