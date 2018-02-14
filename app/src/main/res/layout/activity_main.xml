@@ -19,7 +19,8 @@
         android:layout_marginStart="0dp"
         android:background="#f3f707"
         app:menu="@menu/navigation"
-        app:itemIconTint="#0f3cf1"/>
+        app:itemIconTint="#0f3cf1"
+        app:itemTextColor="#000000"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/share"

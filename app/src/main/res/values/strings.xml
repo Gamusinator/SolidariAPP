@@ -3,11 +3,13 @@
     <string name="titol_inici">Inici</string>
     <string name="titol_generador">Generador</string>
     <string name="titol_estadistiques">Estadístiques</string>
-    <string name="IniciDescripcio"><b>SolidariAPP</b> ha estat creada per ajudar a les persones a contribuir amb la caixa de solidaritat, creada per l\'ANC i ÒMNIUM.\n\nLa caixa de solidaritat
-        permet fer front a les represàlies econòmiques que reben persones físiques com a conseqüència d’actuacions emmarcades en el procés cap a la independència per participar
-        d’accions unitàries, cíviques, pacífiques i democràtiques.\nAquestes actuacions han de respondre a iniciatives acordades per les entitats i/ o partits sobiranistes o bé per
-        seguir el mandat de les urnes i els acords del Parlament de Catalunya i el Govern de la Generalitat en favor del procés independentista.\n\nGràcies a <b>SolidariAPP</b> tothom
-        podrà contribuir, tan sols mirant uns quants anuncis al dia.\n\n<i>Els beneficis seran donats als comptes corrents proporcionats per la
-        caixa de solidaritat segons el termes i condicions de l\'aplicació.</i></string>
+    <string name="IniciDescripcio"><b>Què és SolidariAPP?</b>\nSolidariAPP ha estat creada per <b>Gamusino Studios</b>, per ajudar a les persones a contribuir amb la caixa de solidaritat
+        de manera totalment gratuïta.\n\n<b>Què és la caixa de solidaritat?</b>\nLa caixa de solidaritat, creada per l\'ANC i ÒMNIUM permet fer front a les represàlies econòmiques que
+        reben persones físiques com a conseqüència d’actuacions emmarcades en el procés cap a la independència per participar d’accions unitàries, cíviques, pacífiques i democràtiques.
+        \nAquestes actuacions han de respondre a iniciatives acordades per les entitats i/ o partits sobiranistes o bé per seguir el mandat de les urnes i els acords del Parlament de
+        Catalunya i el Govern de la Generalitat en favor del procés independentista.\n\n<b>Com funciona?</b>\nPer contribuir de forma totalment gratuita, nomes cal, anar a la pestanya
+        Generador, i prémer el botó per veure videos publicitaris. Com més videos es vegin, més diners es generen. A final de cada més, es publicaran els ingressos aconseguits.\n
+        \n<b>Com funcionen les donacions?</b>\nQuan s\'arribi a un nivell d\'ingressos suficients, els diners seran ingressats a les contes de la caixa de solidaritat segons els termes i
+        condicions d\'aquesta aplicació.</string>
     <string name="banner_ad_unit_id">ca-app-pub-6311459401782434/1432091661</string>
 </resources>
