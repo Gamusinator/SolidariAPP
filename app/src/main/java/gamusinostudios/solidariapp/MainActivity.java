@@ -14,6 +14,8 @@ import com.google.android.gms.ads.AdView;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final int RC_SIGN_IN = 9001;
+
     FragmentManager fragmentManager=getSupportFragmentManager();
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -72,4 +74,5 @@ public class MainActivity extends AppCompatActivity {
             //do something else
         }
     }
+
 }

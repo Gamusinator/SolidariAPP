@@ -3,6 +3,11 @@
     <string name="titol_inici">Inici</string>
     <string name="titol_generador">Generador</string>
     <string name="titol_estadistiques">Estadístiques</string>
+    <string name="perfil_nom">Mostra el Nom aquí</string>
+    <string name="perfil_correu">Mostra el Correu aquí</string>
+    <string name="perfil_botoLogOff">Desconnecta la sessió</string>
+    <string name="perfil_botoLogOn">Connecta</string>
+    <string name="instruccions">Fes clic al llaç groc per començar a col·laborar</string>
     <string name="IniciDescripcio"><b>Què és SolidariAPP?</b>\nSolidariAPP ha estat creada per <b>Gamusino Studios</b>, per ajudar a les persones a contribuir amb la caixa de solidaritat
         de manera totalment gratuïta.\n\n<b>Què és la caixa de solidaritat?</b>\nLa caixa de solidaritat, creada per l\'ANC i ÒMNIUM permet fer front a les represàlies econòmiques que
         reben persones físiques com a conseqüència d’actuacions emmarcades en el procés cap a la independència per participar d’accions unitàries, cíviques, pacífiques i democràtiques.
