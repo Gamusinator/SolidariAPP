@@ -24,6 +24,7 @@ public class Fragment01 extends Fragment {
 
         // Inflate the layout for this fragment
         return v;
+
     }
 
 }
