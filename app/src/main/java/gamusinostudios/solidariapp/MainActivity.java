@@ -21,10 +21,14 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
 
     private GoogleApiClient googleApiClient;
-    private static final int REQ_CODE = 9001;
+    private static final int REQ_CODE = 777;
 
     FragmentManager fragmentManager=getSupportFragmentManager();
 
@@ -111,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 img_url=account.getPhotoUrl().toString();
 
             }else{
-                img_url ="";
+                img_url = null;
             }
             editor.putBoolean("login", true);
             editor.putString("name", name);
@@ -138,4 +142,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             handleResult(result);
         }
     }
+
+    //S'ha de fer un mètode per comprovar el canvi de dia.
+    //Si es canvia de dia, s'han de començar a desar els anuncis vistos al dia següent
+    //per comprovar el dia, s'ha de fer una consulta de l'ultima dia desat a la base de dades comparant-lo amb la data d'avui del telèfon amb les comandes següents:
+    //busquem la data d'avui en format Dia/Mes/Any
+    //String dataAvui = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+    //editor.putString("date", dataAvui);
+    //desem les dades al teléfon
 }
