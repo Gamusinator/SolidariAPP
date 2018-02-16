@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "187929897042",
+    "project_id": "solidariapp"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:187929897042:android:c82a30ed2006986c",
+        "android_client_info": {
+          "package_name": "gamusinostudios.solidariapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "187929897042-4qps0dit8013utjgk8pnlpm7712r992m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "gamusinostudios.solidariapp",
+            "certificate_hash": "e92d6032b7a2fa38961985c14d3422bf2be08354"
+          }
+        },
+        {
+          "client_id": "187929897042-7vib4t3qiphrf482nv953390bqipoehs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDiU1CjTqce-34xDIhHq702o_q9EXUJKaQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
