@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:backgroundTint="@android:color/holo_purple"
+        app:backgroundTint="#0f3cf1"
         app:srcCompat="@android:drawable/ic_menu_share" />
 
     <com.google.android.gms.ads.AdView

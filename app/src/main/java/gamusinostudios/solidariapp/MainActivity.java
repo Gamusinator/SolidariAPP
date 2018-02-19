@@ -21,10 +21,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
 
     private GoogleApiClient googleApiClient;
@@ -121,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             editor.putString("name", name);
             editor.putString("email", email);
             editor.putString("pic", img_url);
-            editor.apply();
+
             Toast.makeText(this, "Dades de perfil carregades correctament", Toast.LENGTH_SHORT).show();
         }
         else{
