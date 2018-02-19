@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    testImplementation 'junit:junit:4.12'
 }
 apply plugin: 'com.android.application'
 
@@ -35,9 +35,9 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-    compile 'com.android.volley:volley:1.0.0'
-    compile 'com.google.android.gms:play-services-ads:9.8.0'
-    compile 'com.google.android.gms:play-services-auth:9.8.0'
-    compile 'com.github.bumptech.glide:glide:3.7.0'
+    implementation 'com.android.volley:volley:1.0.0'
+    implementation 'com.google.android.gms:play-services-ads:9.8.0'
+    implementation 'com.google.android.gms:play-services-auth:9.8.0'
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
 }
 apply plugin: 'com.google.gms.google-services'

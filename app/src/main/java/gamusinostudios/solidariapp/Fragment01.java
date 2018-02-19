@@ -1,11 +1,8 @@
 package gamusinostudios.solidariapp;
 
-import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,18 +11,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.reward.RewardItem;
 import com.google.android.gms.ads.reward.RewardedVideoAd;
 import com.google.android.gms.ads.reward.RewardedVideoAdListener;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-
 import static android.content.Context.MODE_PRIVATE;
 
 
@@ -72,6 +66,7 @@ public class Fragment01 extends Fragment implements View.OnClickListener, Reward
         img_url = prefs.getString("pic", null);
         isLogin = prefs.getBoolean("login", false);
         dataDesada = prefs.getString("date", null);
+        sumaAnuncis = prefs.getInt("anuncisVistos",0);
 
 
         Prof_Section.setVisibility(View.GONE);
@@ -88,9 +83,8 @@ public class Fragment01 extends Fragment implements View.OnClickListener, Reward
         mRewardedVideoAd.setRewardedVideoAdListener(this);
 
         loadRewardedVideoAd();
-        actualitzarAnuncisVistos();
-
-
+        comprovarCanviDia();
+        actualitzarTextViewAnuncis();
 
 
         // Inflate the layout for this fragment
@@ -136,21 +130,6 @@ public class Fragment01 extends Fragment implements View.OnClickListener, Reward
 
     //Funcions per la publicitat recompensada
 
-    private void actualitzarAnuncisVistos(){
-
-            if (sumaAnuncis>0) {
-                SharedPreferences.Editor editor = getActivity().getSharedPreferences("SolidariAPP", MODE_PRIVATE).edit();
-                editor.putInt("anuncisVistos", sumaAnuncis);
-                editor.apply();
-                String num = String.valueOf(sumaAnuncis);
-                String frase = num + "/22";
-                AnuncisVistos.setText(frase);
-            }else{
-                String num = String.valueOf(sumaAnuncis);
-                String frase = num + "/22";
-                AnuncisVistos.setText(frase);
-            }
-    }
 
     private void loadRewardedVideoAd() {
         if (!mRewardedVideoAd.isLoaded())
@@ -188,11 +167,19 @@ public class Fragment01 extends Fragment implements View.OnClickListener, Reward
 
     @Override
     public void onRewarded(RewardItem rewardItem) {
-        //l'usuari obté la recommpensa
-        //actualitzar el nombre d'anuncis vistos
+        //l'usuari obté la recommpensa (+1 anunci vist)
+
+        SharedPreferences.Editor editor = getActivity().getSharedPreferences("SolidariAPP", MODE_PRIVATE).edit();
+
         sumaAnuncis++;
-        //actualitzar el text view
-        actualitzarAnuncisVistos();
+        //desem el valor dels anuncis vistos al shared preferences
+        editor.putInt("anuncisVistos", sumaAnuncis);
+        editor.apply();
+        actualitzarTextViewAnuncis();
+        //
+        //actualitzem base de dades
+        //
+
     }
 
     @Override
@@ -222,5 +209,23 @@ public class Fragment01 extends Fragment implements View.OnClickListener, Reward
         //no destruim la publicitat perquè sino, no es torna a mostrar fins ke reiniciem l'aplicacio
         //mRewardedVideoAd.destroy(getContext());
         super.onDestroy();
+    }
+
+    public void actualitzarTextViewAnuncis(){
+        String num = String.valueOf(sumaAnuncis);
+        String frase = num + "/22";
+        AnuncisVistos.setText(frase);
+    }
+
+    public void comprovarCanviDia(){
+
+        String dataAvui = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+        if (!dataAvui.equalsIgnoreCase(dataDesada)){
+            SharedPreferences.Editor editor = getActivity().getSharedPreferences("SolidariAPP", MODE_PRIVATE).edit();
+            sumaAnuncis = 0;
+            editor.putString("date", dataAvui);
+            editor.putInt("anuncisVistos", sumaAnuncis);
+            editor.apply();
+        }
     }
 }
