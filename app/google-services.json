@@ -1,7 +1,9 @@
 {
   "project_info": {
     "project_number": "187929897042",
-    "project_id": "solidariapp"
+    "firebase_url": "https://solidariapp.firebaseio.com",
+    "project_id": "solidariapp",
+    "storage_bucket": "solidariapp.appspot.com"
   },
   "client": [
     {
@@ -12,6 +14,18 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "187929897042-8spsaqfcqclbbbf94uu691pnt2hjj0c5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "gamusinostudios.solidariapp",
+            "certificate_hash": "e3447b96d65fd9b455906b30c70b41022f515900"
+          }
+        },
+        {
+          "client_id": "187929897042-vq0np34o28447ae2vh3e6l63vienucus.apps.googleusercontent.com",
+          "client_type": 3
+        },
         {
           "client_id": "187929897042-4qps0dit8013utjgk8pnlpm7712r992m.apps.googleusercontent.com",
           "client_type": 1,

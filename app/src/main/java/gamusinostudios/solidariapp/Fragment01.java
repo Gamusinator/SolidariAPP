@@ -1,11 +1,8 @@
 package gamusinostudios.solidariapp;
 
-import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,18 +11,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.reward.RewardItem;
 import com.google.android.gms.ads.reward.RewardedVideoAd;
 import com.google.android.gms.ads.reward.RewardedVideoAdListener;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-
 import static android.content.Context.MODE_PRIVATE;
 
 
@@ -175,18 +169,16 @@ public class Fragment01 extends Fragment implements View.OnClickListener, Reward
         //l'usuari obté la recommpensa (+1 anunci vist)
 
         SharedPreferences.Editor editor = getActivity().getSharedPreferences("SolidariAPP", MODE_PRIVATE).edit();
-        //comprovem si s'ha canviat de dia per crear un regitre nou a la base de dades o sumar a l'existent
-        String dataAvui = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
-        if (dataAvui.equalsIgnoreCase(dataDesada)){
-            sumaAnuncis++;
-            //desem el valor dels anuncis vistos al shared preferences
-            editor.putInt("anuncisVistos", sumaAnuncis);
-            editor.apply();
-            actualitzarTextViewAnuncis();
-            //
-            //actualitzem base de dades
-            //
-        }
+
+        sumaAnuncis++;
+        //desem el valor dels anuncis vistos al shared preferences
+        editor.putInt("anuncisVistos", sumaAnuncis);
+        editor.apply();
+        actualitzarTextViewAnuncis();
+        //
+        //actualitzem base de dades
+        //
+
     }
 
     @Override

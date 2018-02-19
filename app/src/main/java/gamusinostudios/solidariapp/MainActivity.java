@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentContainer;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -117,14 +118,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             editor.putString("name", name);
             editor.putString("email", email);
             editor.putString("pic", img_url);
-
             Toast.makeText(this, "Dades de perfil carregades correctament", Toast.LENGTH_SHORT).show();
         }
         else{
             Toast.makeText(this, "No s'ha pogut accedir al prefil de Google", Toast.LENGTH_SHORT).show();
             editor.putBoolean("login", false);
-            editor.apply();
         }
+        //tant si conecta, com si no, desem els canvis al shared preferences
+        editor.apply();
     }
 
 
@@ -139,11 +140,4 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         }
     }
 
-    //S'ha de fer un mètode per comprovar el canvi de dia.
-    //Si es canvia de dia, s'han de començar a desar els anuncis vistos al dia següent
-    //per comprovar el dia, s'ha de fer una consulta de l'ultima dia desat a la base de dades comparant-lo amb la data d'avui del telèfon amb les comandes següents:
-    //busquem la data d'avui en format Dia/Mes/Any
-    //String dataAvui = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
-    //editor.putString("date", dataAvui);
-    //desem les dades al teléfon
 }
