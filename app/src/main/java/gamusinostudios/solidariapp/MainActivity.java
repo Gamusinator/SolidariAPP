@@ -1,12 +1,22 @@
 package gamusinostudios.solidariapp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.FragmentContainer;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -22,10 +32,22 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
 
     private GoogleApiClient googleApiClient;
     private static final int REQ_CODE = 777;
+
+    String name;
+    String email;
+    String img_url;
+    String dataDesada;
+    int anuncisVistos;
+    boolean exists;
 
     FragmentManager fragmentManager=getSupportFragmentManager();
 
@@ -77,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         googleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this,this).addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions).build();
 
         signIn();
+
     }
 
     public void CompartirAPP() {
@@ -105,27 +128,33 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         SharedPreferences.Editor editor = getSharedPreferences("SolidariAPP", MODE_PRIVATE).edit();
         if (result.isSuccess()){
             GoogleSignInAccount account = result.getSignInAccount();
-            String name = account.getDisplayName();
-            String email = account.getEmail();
-            String img_url;
+            name = account.getDisplayName();
+            email = account.getEmail();
             if (account.getPhotoUrl() != null){
                 img_url=account.getPhotoUrl().toString();
 
             }else{
                 img_url = null;
             }
+
             editor.putBoolean("login", true);
             editor.putString("name", name);
             editor.putString("email", email);
             editor.putString("pic", img_url);
-            Toast.makeText(this, "Dades de perfil carregades correctament", Toast.LENGTH_SHORT).show();
+            editor.apply();
+            Toast.makeText(this, R.string.load, Toast.LENGTH_SHORT).show();
+
+            loginPrimeraVegada(email);
+            if (!exists) {
+                //Action 1 = inserir usuari a la base de dades
+                new Insertar(MainActivity.this, 1).execute();
+            }
         }
         else{
-            Toast.makeText(this, "No s'ha pogut accedir al prefil de Google", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.loadFail, Toast.LENGTH_SHORT).show();
             editor.putBoolean("login", false);
+            editor.apply();
         }
-        //tant si conecta, com si no, desem els canvis al shared preferences
-        editor.apply();
     }
 
 
@@ -137,6 +166,145 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleResult(result);
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //Metodes per registrar l'usuari a la base de dades
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private void loginPrimeraVegada(String googleEmail){
+        SharedPreferences prefs = getSharedPreferences("SolidariAPP", MODE_PRIVATE);
+        String comprovacio = prefs.getString("email", null);
+        //he de carregar la data desada a una variable en algun lloc...i aqui mateix ia va b xD
+        dataDesada = prefs.getString("date", null);
+        anuncisVistos = prefs.getInt("anuncisVistos", 0);
+        ///////////////////////////////////////////////////////////////////////////////////////
+        if (comprovacio.equalsIgnoreCase(googleEmail)){
+            exists = true;
+        }else{
+            exists = false;
+        }
+    }
+
+    //Inserim l'usuari al mysql
+    private boolean insertarUsuari(){
+        HttpClient httpClient;
+        List<NameValuePair> nameValuePairs;
+        HttpPost httpPost;
+        httpClient = new DefaultHttpClient();
+        httpPost = new HttpPost("http://35.177.198.220/solidariapp/scripts/RegistrarUsuari.php");//url del servidor
+        //empezamos añadir nuestros datos
+        nameValuePairs = new ArrayList<NameValuePair>(2);
+        nameValuePairs.add(new BasicNameValuePair("email",email));
+        nameValuePairs.add(new BasicNameValuePair("nom",name));
+        try {
+            httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+            httpClient.execute(httpPost);
+            return true;
+
+
+        } catch(UnsupportedEncodingException e){
+            e.printStackTrace();
+        }catch (ClientProtocolException e){
+            e.printStackTrace();
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return  false;
+    }
+
+    //desem anuncis vistos al mysql
+    private boolean desarAnuncis(){
+        HttpClient httpClient;
+        List<NameValuePair> nameValuePairs;
+        HttpPost httpPost;
+        httpClient = new DefaultHttpClient();
+        httpPost = new HttpPost("http://35.177.198.220/solidariapp/scripts/desarAnuncis.php");//url del servidor
+        //empezamos añadir nuestros datos
+        nameValuePairs = new ArrayList<NameValuePair>(3);
+        nameValuePairs.add(new BasicNameValuePair("email",email));
+        nameValuePairs.add(new BasicNameValuePair("date",name));
+        nameValuePairs.add(new BasicNameValuePair("anuncisVistos",Integer.toString(anuncisVistos)));//hem de pasar el numero a string per poderlo passar amb aquest metode...
+        try {
+            httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+            httpClient.execute(httpPost);
+            return true;
+
+
+        } catch(UnsupportedEncodingException e){
+            e.printStackTrace();
+        }catch (ClientProtocolException e){
+            e.printStackTrace();
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return  false;
+    }
+    //AsyncTask para insertar Personas
+    class Insertar extends AsyncTask<String,String,String> {
+
+        private Activity context;
+        private int action;
+        //L'int action s'utilitza per escollir una accio:
+        //accio 1 = inserir usuari
+        //accio 2 = actualitzar anuncis/dia de l'usuari
+
+        Insertar(Activity context, int action){
+            this.context=context;
+            this.action=action;
+        }
+
+        protected String doInBackground(String... params) {
+            // TODO Auto-generated method stub
+
+            switch (action){
+                case 1:
+                    //inserim usuari al mysql
+                    if(insertarUsuari())
+                        context.runOnUiThread(new Runnable(){
+                            @Override
+                            public void run() {
+                                // TODO Auto-generated method stub
+                                Toast.makeText(context, "Gràcies per formar part d\'aquest projecte", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    else
+                        context.runOnUiThread(new Runnable(){
+                            @Override
+                            public void run() {
+                                // TODO Auto-generated method stub
+                                Toast.makeText(context, "Hi ha hagut un error al inserir l\'usuari a la base de dades", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    break;
+                case 2:
+                    //actualizem els anuncis vistos, al mysql
+                    if(desarAnuncis())
+                        context.runOnUiThread(new Runnable(){
+                            @Override
+                            public void run() {
+                                // TODO Auto-generated method stub
+                                Toast.makeText(context, "Fins aviat!", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    else
+                        context.runOnUiThread(new Runnable(){
+                            @Override
+                            public void run() {
+                                // TODO Auto-generated method stub
+                                Toast.makeText(context, "Hi ha hagut un error inesperat al desar les dades.", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    break;
+                default:
+                    break;
+            }
+            return null;
         }
     }
 
