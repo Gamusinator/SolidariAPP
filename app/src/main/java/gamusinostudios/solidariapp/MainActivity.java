@@ -219,9 +219,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         //Carreguem les dades desades al telèfon
         SharedPreferences prefs = this.getSharedPreferences("SolidariAPP", MODE_PRIVATE);
         anuncisVistos = prefs.getInt("anuncisVistos",0);
-        dataDesada = prefs.getString("date", null);
-
-        if (dataDesada == null) dataDesada = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+        email = prefs.getString("email", null);
 
         HttpClient httpClient;
         List<NameValuePair> nameValuePairs;
@@ -229,9 +227,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         httpClient = new DefaultHttpClient();
         httpPost = new HttpPost("http://35.177.198.220/solidariapp/scripts/desarAnuncis.php");//url del servidor
         //empezamos añadir nuestros datos
-        nameValuePairs = new ArrayList<NameValuePair>(3);
+        nameValuePairs = new ArrayList<NameValuePair>(2);
         nameValuePairs.add(new BasicNameValuePair("email",email));
-        nameValuePairs.add(new BasicNameValuePair("date",dataDesada));
         nameValuePairs.add(new BasicNameValuePair("anuncisVistos",Integer.toString(anuncisVistos)));//hem de pasar el numero a string per poderlo passar amb aquest metode...
         try {
             httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
@@ -328,7 +325,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     @Override
     protected void onStop() {
-        new MainActivity.Insertar(MainActivity.this, 2).execute();
+        new Insertar(MainActivity.this, 2).execute();
         super.onStop();
     }
 }
