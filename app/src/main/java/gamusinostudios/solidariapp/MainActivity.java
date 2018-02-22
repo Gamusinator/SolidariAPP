@@ -34,8 +34,11 @@ import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
 
@@ -98,7 +101,15 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         googleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this,this).addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions).build();
 
-        signIn();
+        SharedPreferences prefs = getSharedPreferences("SolidariAPP", MODE_PRIVATE);
+        String firstLogin = prefs.getString("email", null);
+        if (firstLogin == null){
+            exists = false;
+            signIn();
+        }else{
+            exists = true;
+        }
+
 
     }
 
@@ -144,7 +155,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             editor.apply();
             Toast.makeText(this, R.string.load, Toast.LENGTH_SHORT).show();
 
-            loginPrimeraVegada(email);
             if (!exists) {
                 //Action 1 = inserir usuari a la base de dades
                 new Insertar(MainActivity.this, 1).execute();
@@ -174,20 +184,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     //Metodes per registrar l'usuari a la base de dades
     //
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    private void loginPrimeraVegada(String googleEmail){
-        SharedPreferences prefs = getSharedPreferences("SolidariAPP", MODE_PRIVATE);
-        String comprovacio = prefs.getString("email", null);
-        //he de carregar la data desada a una variable en algun lloc...i aqui mateix ia va b xD
-        dataDesada = prefs.getString("date", null);
-        anuncisVistos = prefs.getInt("anuncisVistos", 0);
-        ///////////////////////////////////////////////////////////////////////////////////////
-        if (comprovacio.equalsIgnoreCase(googleEmail)){
-            exists = true;
-        }else{
-            exists = false;
-        }
-    }
 
     //Inserim l'usuari al mysql
     private boolean insertarUsuari(){
@@ -219,6 +215,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     //desem anuncis vistos al mysql
     private boolean desarAnuncis(){
+
+        //Carreguem les dades desades al telèfon
+        SharedPreferences prefs = this.getSharedPreferences("SolidariAPP", MODE_PRIVATE);
+        anuncisVistos = prefs.getInt("anuncisVistos",0);
+        dataDesada = prefs.getString("date", null);
+
+        if (dataDesada == null) dataDesada = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+
         HttpClient httpClient;
         List<NameValuePair> nameValuePairs;
         HttpPost httpPost;
@@ -227,7 +231,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         //empezamos añadir nuestros datos
         nameValuePairs = new ArrayList<NameValuePair>(3);
         nameValuePairs.add(new BasicNameValuePair("email",email));
-        nameValuePairs.add(new BasicNameValuePair("date",name));
+        nameValuePairs.add(new BasicNameValuePair("date",dataDesada));
         nameValuePairs.add(new BasicNameValuePair("anuncisVistos",Integer.toString(anuncisVistos)));//hem de pasar el numero a string per poderlo passar amb aquest metode...
         try {
             httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
@@ -289,7 +293,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                             @Override
                             public void run() {
                                 // TODO Auto-generated method stub
-                                //Toast.makeText(context, "Fins aviat!", Toast.LENGTH_LONG).show();
+                                Toast.makeText(context, "Fins aviat!", Toast.LENGTH_LONG).show();
                             }
                         });
                     else
@@ -318,7 +322,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     @Override
     protected void onDestroy() {
-        new Insertar(MainActivity.this, 2).execute();
+
         super.onDestroy();
+    }
+
+    @Override
+    protected void onStop() {
+        new MainActivity.Insertar(MainActivity.this, 2).execute();
+        super.onStop();
     }
 }

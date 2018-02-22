@@ -199,12 +199,12 @@ public class Fragment01 extends Fragment implements View.OnClickListener, Reward
         super.onResume();
     }
 
-//    @Override
-//    public void onDestroy() {
-//        //no destruim la publicitat perquè sino, no es torna a mostrar fins ke reiniciem l'aplicacio
-//        //mRewardedVideoAd.destroy(getContext());
-//        super.onDestroy();
-//    }
+    @Override
+    public void onDestroy() {
+        //no destruim la publicitat perquè sino, no es torna a mostrar fins ke reiniciem l'aplicacio
+        //mRewardedVideoAd.destroy(getContext());
+        super.onDestroy();
+    }
 
     public void actualitzarTextViewAnuncis(){
         String num = String.valueOf(sumaAnuncis);
