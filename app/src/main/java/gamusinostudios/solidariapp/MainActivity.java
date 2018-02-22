@@ -289,7 +289,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                             @Override
                             public void run() {
                                 // TODO Auto-generated method stub
-                                Toast.makeText(context, "Fins aviat!", Toast.LENGTH_LONG).show();
+                                //Toast.makeText(context, "Fins aviat!", Toast.LENGTH_LONG).show();
                             }
                         });
                     else
@@ -308,4 +308,17 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         }
     }
 
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //Metodes per desar els anuncis visualitzats al MySQL
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+    @Override
+    protected void onDestroy() {
+        new Insertar(MainActivity.this, 2).execute();
+        super.onDestroy();
+    }
 }
