@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/SolidariAPP.iml" filepath="$PROJECT_DIR$/SolidariAPP.iml" />
+      <module fileurl="file://C:\Users\dani\Android StudioProjects2\SolidariAPP\SolidariAPP.iml" filepath="C:\Users\dani\Android StudioProjects2\SolidariAPP\SolidariAPP.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\dani\Android StudioProjects2\SolidariAPP\app\app.iml" filepath="C:\Users\dani\Android StudioProjects2\SolidariAPP\app\app.iml" />
     </modules>
   </component>
 </project>

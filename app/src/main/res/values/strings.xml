@@ -20,4 +20,6 @@
         \n<b>Com funcionen les donacions?</b>\nQuan s\'arribi a un nivell d\'ingressos suficients, els diners seran ingressats a les contes de la caixa de solidaritat segons els termes i
         condicions d\'aquesta aplicació.</string>
     <string name="banner_ad_unit_id">ca-app-pub-6311459401782434/1432091661</string>
+    <string name="load">Dades de perfil carregades correctament</string>
+    <string name="loadFail">No s\'ha pogut accedir al prefil de Google</string>
 </resources>

@@ -24,6 +24,7 @@ android {
         }
     }
     buildToolsVersion '26.0.2'
+    useLibrary 'org.apache.http.legacy'
 }
 
 dependencies {

@@ -176,10 +176,6 @@ public class Fragment01 extends Fragment implements View.OnClickListener, Reward
         editor.putInt("anuncisVistos", sumaAnuncis);
         editor.apply();
         actualitzarTextViewAnuncis();
-        //
-        //actualitzem base de dades
-        //
-
     }
 
     @Override
