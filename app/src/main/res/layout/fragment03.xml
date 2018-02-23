@@ -19,17 +19,4 @@
         android:text="Estadístiques"
         android:textColor="#000000"/>
 
-    <EditText
-        android:id="@+id/editText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/textView"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="27dp"
-        android:layout_marginEnd="49dp"
-        android:layout_marginRight="49dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="prova" />
 </RelativeLayout>
