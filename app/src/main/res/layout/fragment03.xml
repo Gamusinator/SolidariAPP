@@ -7,15 +7,58 @@
     android:paddingRight="16dp"
     android:paddingBottom="50dp"
     android:orientation="vertical"
+    android:layout_marginTop="70dp"
     tools:context="gamusinostudios.solidariapp.Fragment03">
 
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+    <ImageView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:src="@mipmap/caixasolidaritat"/>
+    <LinearLayout
+        android:id="@+id/LayoutEstadistica1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:text="Estadístiques"
-        android:textColor="#000000"/>
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/TotalAnuncis"
+            android:textSize="25sp"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            android:textAlignment="center"/>
+
+            <TextView
+                android:id="@+id/TextViewTotalAnuncis"
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:textColor="#000000"
+                android:textStyle="bold"/>
+
+        <TextView
+            android:layout_marginTop="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Totalpropi"
+            android:textSize="25sp"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            android:textAlignment="center"/>
+
+            <TextView
+                android:id="@+id/TextViewTotalPersonal"
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:textColor="#000000"
+                android:textStyle="bold"/>
+
+    </LinearLayout>
 </RelativeLayout>
