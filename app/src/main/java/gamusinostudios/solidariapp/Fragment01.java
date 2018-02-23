@@ -209,8 +209,7 @@ public class Fragment01 extends Fragment implements View.OnClickListener, Reward
 
     public void actualitzarTextViewAnuncis(){
         String num = String.valueOf(sumaAnuncis);
-        String frase = num + "/22";
-        AnuncisVistos.setText(frase);
+        AnuncisVistos.setText(num);
     }
 
     public void comprovarCanviDia(){
