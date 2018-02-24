@@ -23,6 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.support.v4.app.FragmentManager;
 import android.widget.Toast;
+
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.auth.api.Auth;
@@ -40,7 +41,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private GoogleApiClient googleApiClient;
     private static final int REQ_CODE = 777;
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     int anuncisVistos;
     boolean exists;
 
-    FragmentManager fragmentManager=getSupportFragmentManager();
+    FragmentManager fragmentManager = getSupportFragmentManager();
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -68,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     fragmentManager.beginTransaction().replace(R.id.contenedor, new Fragment02()).commit();
                     return true;
                 case R.id.navigation_estadistiques:
+                    new Insertar(MainActivity.this, 2).execute();
                     fragmentManager.beginTransaction().replace(R.id.contenedor, new Fragment03()).commit();
                     return true;
             }
@@ -81,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         setContentView(R.layout.activity_main);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        navigation.setSelectedItemId(R.id.navigation_inici );
+        navigation.setSelectedItemId(R.id.navigation_inici);
 
         //Publicidad!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         AdView mAdView = (AdView) findViewById(R.id.adView);
@@ -99,14 +101,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         });
 
         GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
-        googleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this,this).addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions).build();
+        googleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this, this).addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions).build();
 
         SharedPreferences prefs = getSharedPreferences("SolidariAPP", MODE_PRIVATE);
         String firstLogin = prefs.getString("email", null);
-        if (firstLogin == null){
+        if (firstLogin == null) {
             exists = false;
             signIn();
-        }else{
+        } else {
             exists = true;
         }
 
@@ -129,22 +131,22 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         Log.d("MIAPP", connectionResult.getErrorMessage());
     }
 
-    private void signIn(){
+    private void signIn() {
         Intent intent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
         startActivityForResult(intent, REQ_CODE);
     }
 
-    private void handleResult(GoogleSignInResult result){
+    private void handleResult(GoogleSignInResult result) {
 
         SharedPreferences.Editor editor = getSharedPreferences("SolidariAPP", MODE_PRIVATE).edit();
-        if (result.isSuccess()){
+        if (result.isSuccess()) {
             GoogleSignInAccount account = result.getSignInAccount();
             name = account.getDisplayName();
             email = account.getEmail();
-            if (account.getPhotoUrl() != null){
-                img_url=account.getPhotoUrl().toString();
+            if (account.getPhotoUrl() != null) {
+                img_url = account.getPhotoUrl().toString();
 
-            }else{
+            } else {
                 img_url = null;
             }
 
@@ -159,8 +161,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 //Action 1 = inserir usuari a la base de dades
                 new Insertar(MainActivity.this, 1).execute();
             }
-        }
-        else{
+        } else {
             Toast.makeText(this, R.string.loadFail, Toast.LENGTH_SHORT).show();
             editor.putBoolean("login", false);
             editor.apply();
@@ -172,8 +173,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode ==REQ_CODE)
-        {
+        if (requestCode == REQ_CODE) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleResult(result);
         }
@@ -186,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     //Inserim l'usuari al mysql
-    private boolean insertarUsuari(){
+    private boolean insertarUsuari() {
         HttpClient httpClient;
         List<NameValuePair> nameValuePairs;
         HttpPost httpPost;
@@ -194,31 +194,31 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         httpPost = new HttpPost("http://35.177.198.220/solidariapp/scripts/RegistrarUsuari.php");//url del servidor
         //empezamos añadir nuestros datos
         nameValuePairs = new ArrayList<NameValuePair>(2);
-        nameValuePairs.add(new BasicNameValuePair("email",email));
-        nameValuePairs.add(new BasicNameValuePair("nom",name));
+        nameValuePairs.add(new BasicNameValuePair("email", email));
+        nameValuePairs.add(new BasicNameValuePair("nom", name));
         try {
             httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
             httpClient.execute(httpPost);
             return true;
 
 
-        } catch(UnsupportedEncodingException e){
+        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
-        }catch (ClientProtocolException e){
+        } catch (ClientProtocolException e) {
             e.printStackTrace();
 
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        return  false;
+        return false;
     }
 
     //desem anuncis vistos al mysql
-    private boolean desarAnuncis(){
+    private boolean desarAnuncis() {
 
         //Carreguem les dades desades al telèfon
         SharedPreferences prefs = this.getSharedPreferences("SolidariAPP", MODE_PRIVATE);
-        anuncisVistos = prefs.getInt("anuncisVistos",0);
+        anuncisVistos = prefs.getInt("anuncisVistos", 0);
         email = prefs.getString("email", null);
 
         HttpClient httpClient;
@@ -228,26 +228,27 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         httpPost = new HttpPost("http://35.177.198.220/solidariapp/scripts/desarAnuncis.php");//url del servidor
         //empezamos añadir nuestros datos
         nameValuePairs = new ArrayList<NameValuePair>(2);
-        nameValuePairs.add(new BasicNameValuePair("email",email));
-        nameValuePairs.add(new BasicNameValuePair("anuncisVistos",Integer.toString(anuncisVistos)));//hem de pasar el numero a string per poderlo passar amb aquest metode...
+        nameValuePairs.add(new BasicNameValuePair("email", email));
+        nameValuePairs.add(new BasicNameValuePair("anuncisVistos", Integer.toString(anuncisVistos)));//hem de pasar el numero a string per poderlo passar amb aquest metode...
         try {
             httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
             httpClient.execute(httpPost);
             return true;
 
 
-        } catch(UnsupportedEncodingException e){
+        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
-        }catch (ClientProtocolException e){
+        } catch (ClientProtocolException e) {
             e.printStackTrace();
 
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        return  false;
+        return false;
     }
+
     //AsyncTask para insertar Personas
-    class Insertar extends AsyncTask<String,String,String> {
+    class Insertar extends AsyncTask<String, String, String> {
 
         private Activity context;
         private int action;
@@ -255,19 +256,19 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         //accio 1 = inserir usuari
         //accio 2 = actualitzar anuncis/dia de l'usuari
 
-        Insertar(Activity context, int action){
-            this.context=context;
-            this.action=action;
+        Insertar(Activity context, int action) {
+            this.context = context;
+            this.action = action;
         }
 
         protected String doInBackground(String... params) {
             // TODO Auto-generated method stub
 
-            switch (action){
+            switch (action) {
                 case 1:
                     //inserim usuari al mysql
-                    if(insertarUsuari())
-                        context.runOnUiThread(new Runnable(){
+                    if (insertarUsuari())
+                        context.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 // TODO Auto-generated method stub
@@ -275,7 +276,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                             }
                         });
                     else
-                        context.runOnUiThread(new Runnable(){
+                        context.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 // TODO Auto-generated method stub
@@ -285,16 +286,16 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     break;
                 case 2:
                     //actualizem els anuncis vistos, al mysql
-                    if(desarAnuncis())
-                        context.runOnUiThread(new Runnable(){
+                    if (desarAnuncis())
+                        context.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 // TODO Auto-generated method stub
-                                Toast.makeText(context, "Fins aviat!", Toast.LENGTH_LONG).show();
+                                //Toast.makeText(context, "Fins aviat!", Toast.LENGTH_LONG).show();
                             }
                         });
                     else
-                        context.runOnUiThread(new Runnable(){
+                        context.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 // TODO Auto-generated method stub
@@ -314,7 +315,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     //Metodes per desar els anuncis visualitzats al MySQL
     //
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 
     @Override
