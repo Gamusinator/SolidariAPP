@@ -8,7 +8,7 @@
     <string name="perfil_botoLogOff">Desconnecta la sessió</string>
     <string name="perfil_botoLogOn">Connecta</string>
     <string name="anuncisVistos">Anuncis diaris vistos</string>
-    <string name="loadingAd">S\'estan carregan els anuncis, torna-ho a intentar. Si has vist molts anuncis pot ser que hagis d\'esperar unes hores per visualitzar-ne més.</string>
+    <string name="loadingAd">S\'estan carregan els anuncis, torna-ho a intentar. Si has vist molts anuncis pot ser que hagis d\'esperar unes hores per visualitzar-ne mes.</string>
     <string name="instruccions">Fes clic al llaç groc per començar a col·laborar</string>
     <string name="FailConnexio">No s\'han pogut carregar les dades del teu perfil de Google. Si us plau, reinstal·la l\'aplicació.\nSi el problema no se soluciona, posa\'t en contacte amb els administradors.</string>
     <string name="IniciDescripcio"><b>Què és SolidariAPP?</b>\nSolidariAPP ha estat creada per <b>Gamusino Studios</b>, per ajudar a les persones a contribuir amb la caixa de solidaritat

@@ -35,11 +35,8 @@ import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
@@ -49,7 +46,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     String name;
     String email;
     String img_url;
-    String dataDesada;
     int anuncisVistos;
     boolean exists;
 
