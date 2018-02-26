@@ -132,7 +132,7 @@ public class Fragment01 extends Fragment implements View.OnClickListener, Reward
 
     private void loadRewardedVideoAd() {
         if (!mRewardedVideoAd.isLoaded())
-        mRewardedVideoAd.loadAd("ca-app-pub-3940256099942544/5224354917",
+        mRewardedVideoAd.loadAd("ca-app-pub-6311459401782434/7682614713",
                 new AdRequest.Builder().build());
     }
 

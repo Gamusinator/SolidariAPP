@@ -71,9 +71,15 @@ public class Fragment03 extends Fragment {
             StrictMode.setThreadPolicy(policy);
             //your codes here
             carregarValors();
-            totalAnuncis.setText(resultatsEstadistics[0]);
-            totalPersonal.setText(resultatsEstadistics[1]);
+            if (resultatsEstadistics.length == 0){
+                totalAnuncis.setText("O.o");
+                totalPersonal.setText("O.o");
+            }else{
+                totalAnuncis.setText(resultatsEstadistics[0]);
+                totalPersonal.setText(resultatsEstadistics[1]);
+            }
         }
+
 
     }
 
