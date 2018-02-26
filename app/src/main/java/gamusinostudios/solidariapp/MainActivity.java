@@ -18,6 +18,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -188,6 +189,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         HttpPost httpPost;
         httpClient = new DefaultHttpClient();
         httpPost = new HttpPost("http://35.177.198.220/solidariapp/scripts/RegistrarUsuari.php");//url del servidor
+        //autentificacio
+        httpPost.setHeader("Authorization", "Basic "+ Base64.encodeToString("scudgamu:2on2esdepros".getBytes(),Base64.URL_SAFE|Base64.NO_WRAP));
         //empezamos añadir nuestros datos
         nameValuePairs = new ArrayList<NameValuePair>(2);
         nameValuePairs.add(new BasicNameValuePair("email", email));
@@ -222,6 +225,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         HttpPost httpPost;
         httpClient = new DefaultHttpClient();
         httpPost = new HttpPost("http://35.177.198.220/solidariapp/scripts/desarAnuncis.php");//url del servidor
+        //autentificacio
+        httpPost.setHeader("Authorization", "Basic "+ Base64.encodeToString("scudgamu:2on2esdepros".getBytes(),Base64.URL_SAFE|Base64.NO_WRAP));
         //empezamos añadir nuestros datos
         nameValuePairs = new ArrayList<NameValuePair>(2);
         nameValuePairs.add(new BasicNameValuePair("email", email));

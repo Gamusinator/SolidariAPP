@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,7 +72,7 @@ public class Fragment03 extends Fragment {
             StrictMode.setThreadPolicy(policy);
             //your codes here
             carregarValors();
-            if (resultatsEstadistics.length == 0){
+            if (resultatsEstadistics.length != 2){
                 totalAnuncis.setText("O.o");
                 totalPersonal.setText("O.o");
             }else{
@@ -90,6 +91,9 @@ public class Fragment03 extends Fragment {
         HttpPost httpPost;
         httpClient = new DefaultHttpClient();
         httpPost = new HttpPost("http://35.177.198.220/solidariapp/scripts/estadistiques.php");//url del servidor
+        //autentificacio
+        httpPost.setHeader("Authorization", "Basic "+ Base64.encodeToString("scudgamu:2on2esdepros".getBytes(),Base64.URL_SAFE|Base64.NO_WRAP));
+
         //empezamos añadir nuestros datos
         nameValuePairs = new ArrayList<NameValuePair>(1);
         nameValuePairs.add(new BasicNameValuePair("email", email));
