@@ -15,6 +15,30 @@
       },
       "oauth_client": [
         {
+          "client_id": "187929897042-1s9vsjb69jnrhsuob18g6463o46k1ket.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "gamusinostudios.solidariapp",
+            "certificate_hash": "193bae443a2973fc465fa4c2bf0b28a07fe46731"
+          }
+        },
+        {
+          "client_id": "187929897042-2cu5jb81fkpg8p10trdb63alt3sigcuc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "gamusinostudios.solidariapp",
+            "certificate_hash": "0f499603bb9046d8d363dd5f423cfd695b295119"
+          }
+        },
+        {
+          "client_id": "187929897042-ougng40vvi72bllrv7fqc4j22hvto2a7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "gamusinostudios.solidariapp",
+            "certificate_hash": "4403e6a233d7745830499918c228155a534eac0c"
+          }
+        },
+        {
           "client_id": "187929897042-8spsaqfcqclbbbf94uu691pnt2hjj0c5.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

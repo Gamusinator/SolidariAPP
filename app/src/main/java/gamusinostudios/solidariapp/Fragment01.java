@@ -2,6 +2,7 @@ package gamusinostudios.solidariapp;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,7 +34,7 @@ import static android.content.Context.MODE_PRIVATE;
  */
 public class Fragment01 extends Fragment implements View.OnClickListener, RewardedVideoAdListener {
 
-    private LinearLayout Prof_Section, LayoutPubli, LayoutErrorConn;
+    private ConstraintLayout Prof_Section, LayoutPubli, LayoutErrorConn;
     private TextView Name, Email, AnuncisVistos;
     private ImageView Prof_Pic;
     private boolean isLogin;
@@ -133,7 +134,7 @@ public class Fragment01 extends Fragment implements View.OnClickListener, Reward
 
     private void loadRewardedVideoAd() {
         if (!mRewardedVideoAd.isLoaded())
-        mRewardedVideoAd.loadAd("ca-app-pub-3940256099942544/5224354917",
+        mRewardedVideoAd.loadAd("ca-app-pub-6311459401782434/7682614713",
                 new AdRequest.Builder().build());
     }
 
