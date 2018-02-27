@@ -1,9 +1,15 @@
 package gamusinostudios.solidariapp;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -48,7 +54,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     String email;
     String img_url;
     int anuncisVistos;
-    boolean exists;
+    boolean exists, wifi;
+    boolean recordatori;//comprova si l'usuari vol deixar de rebre l'avís del wifi. false = no mostrar;;; true = seguir mostrant.
 
     FragmentManager fragmentManager = getSupportFragmentManager();
 
@@ -109,6 +116,41 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             exists = true;
         }
 
+        //carreguem el boleà recordatori. Si no existeix, sera true.
+        recordatori = prefs.getBoolean("wifi", true);
+        //Si el wifi esta connectat o si el recordatori esta apagat(false)
+        if (wifi = isConnectedWifi(this) || !recordatori){
+            //wifi connectat
+        }else{
+            final SharedPreferences.Editor editor = getSharedPreferences("SolidariAPP", MODE_PRIVATE).edit();
+            //mostrem un avís
+            AlertDialog.Builder builder;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
+            } else {
+                builder = new AlertDialog.Builder(this);
+            }
+            builder.setTitle(R.string.wifi)
+                    .setMessage(R.string.wifiText)
+                    .setPositiveButton(R.string.wifiOK, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // no fer res
+                            recordatori = true;
+                            editor.putBoolean("wifi", recordatori);
+                            editor.apply();
+                        }
+                    })
+                    .setNegativeButton(R.string.wifiMaiMes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // no mostrar més l'avís
+                            recordatori = false;
+                            editor.putBoolean("wifi", recordatori);
+                            editor.apply();
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+        }
 
     }
 
@@ -328,5 +370,17 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     protected void onStop() {
         new Insertar(MainActivity.this, 2).execute();
         super.onStop();
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //Metode per comprovar si tenim el WIFI ON
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public static boolean isConnectedWifi(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.getType() == ConnectivityManager.TYPE_WIFI;
     }
 }

@@ -24,4 +24,8 @@
     <string name="loadFail">No s\'ha pogut accedir al prefil de Google</string>
     <string name="TotalAnuncis">Anuncis visualitzats per tots els usuaris:</string>
     <string name="Totalpropi">Anuncis visualitzats per mi:</string>
+    <string name="wifi">Alerta!</string>
+    <string name="wifiText">Sembla que no fas servir connexió WIFI. La visualització d\'anuncis pot consumir considerablement la teva tarifa de dades. Et recomanem que et connectis a una xarxa wifi per utilitzar aquesta aplicació.</string>
+    <string name="wifiOK">OK</string>
+    <string name="wifiMaiMes">No recordar més</string>
 </resources>
