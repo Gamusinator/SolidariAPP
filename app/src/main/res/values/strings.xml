@@ -28,4 +28,5 @@
     <string name="wifiText">Sembla que no fas servir connexió WIFI. La visualització d\'anuncis pot consumir considerablement la teva tarifa de dades. Et recomanem que et connectis a una xarxa wifi per utilitzar aquesta aplicació.</string>
     <string name="wifiOK">OK</string>
     <string name="wifiMaiMes">No recordar més</string>
+    <string name="missatgeTitol">Missatge nou!</string>
 </resources>

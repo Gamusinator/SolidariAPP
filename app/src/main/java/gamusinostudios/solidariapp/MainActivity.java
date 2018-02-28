@@ -15,6 +15,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 
+import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -40,7 +41,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,10 +53,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private GoogleApiClient googleApiClient;
     private static final int REQ_CODE = 777;
 
-    String name;
-    String email;
-    String img_url;
-    int anuncisVistos;
+    String[] resultatMissatge;
+    String resposta, name, email, img_url, missatgeNou;
+    int anuncisVistos, numMissatge, numMissatgeDesat;
     boolean exists, wifi;
     boolean recordatori;//comprova si l'usuari vol deixar de rebre l'avís del wifi. false = no mostrar;;; true = seguir mostrant.
 
@@ -88,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setSelectedItemId(R.id.navigation_inici);
+        new Insertar(MainActivity.this, 3).execute();
 
         //Publicidad!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         AdView mAdView = (AdView) findViewById(R.id.adView);
@@ -109,6 +112,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
         SharedPreferences prefs = getSharedPreferences("SolidariAPP", MODE_PRIVATE);
         String firstLogin = prefs.getString("email", null);
+        numMissatgeDesat = prefs.getInt("numMissatge", 0);
         if (firstLogin == null) {
             exists = false;
             signIn();
@@ -152,6 +156,35 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     .show();
         }
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //si hi ha missatges amb id mes gran que l'ultim llegit, s'ha de mostrar el mes nou.
+        if (numMissatge > numMissatgeDesat){
+            //mostrem missatge
+            final SharedPreferences.Editor editor = getSharedPreferences("SolidariAPP", MODE_PRIVATE).edit();
+            editor.putInt("numMissatge", numMissatge);
+            editor.apply();
+            AlertDialog.Builder builder;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
+            } else {
+                builder = new AlertDialog.Builder(this);
+            }
+            builder.setTitle(R.string.missatgeTitol)
+                    .setMessage(missatgeNou)
+                    .setPositiveButton(R.string.wifiOK, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // no fer res
+                            recordatori = true;
+
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_info)
+                    .show();
+        }
     }
 
     public void CompartirAPP() {
@@ -220,7 +253,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
-    //Metodes per registrar l'usuari a la base de dades
+    //Metodes per registrar dades a la base de dades
     //
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -290,6 +323,49 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         return false;
     }
 
+    private boolean actualitzarMissatge() {
+
+        HttpClient httpClient;
+        List<NameValuePair> nameValuePairs;
+        HttpPost httpPost;
+        httpClient = new DefaultHttpClient();
+        httpPost = new HttpPost("http://35.177.198.220/solidariapp/scripts/baixarMissatge.php");//url del servidor
+        //autentificacio
+        httpPost.setHeader("Authorization", "Basic "+ Base64.encodeToString("scudgamu:2on2esdepros".getBytes(),Base64.URL_SAFE|Base64.NO_WRAP));
+
+        try {
+
+            HttpResponse response = httpClient.execute(httpPost);
+
+            BufferedReader rd = new BufferedReader(
+                    new InputStreamReader(response.getEntity().getContent()));
+            StringBuilder result = new StringBuilder();
+            String line = "";
+            while ((line = rd.readLine()) != null) {
+                result.append(line);
+            }
+
+            resposta = result.toString();
+            resultatMissatge = resposta.split(",");
+            try {
+                numMissatge = Integer.parseInt(resultatMissatge[0]);
+                missatgeNou = resultatMissatge[1];
+            } catch(NumberFormatException nfe) {
+                System.out.println("Error en el tractament de les dades");
+            }
+            return true;
+
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     //AsyncTask para insertar Personas
     class Insertar extends AsyncTask<String, String, String> {
 
@@ -343,6 +419,25 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                             public void run() {
                                 // TODO Auto-generated method stub
                                 Toast.makeText(context, "Hi ha hagut un error inesperat al desar les dades.", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    break;
+                case 3:
+                    //actualizem els anuncis vistos, al mysql
+                    if (actualitzarMissatge())
+                        context.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                // TODO Auto-generated method stub
+                               // Toast.makeText(context, "Missatges comprovats", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    else
+                        context.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                // TODO Auto-generated method stub
+                                Toast.makeText(context, "no s'han pogut llegir els missatges nous.", Toast.LENGTH_LONG).show();
                             }
                         });
                     break;
